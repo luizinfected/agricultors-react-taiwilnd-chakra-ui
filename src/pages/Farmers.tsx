@@ -99,17 +99,17 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
     }
 
     const filteredData = Array.isArray(data)
-    ? data.filter((farmer: Farmer) => {
-        const fullNameMatch = farmer.fullName.toLowerCase().includes(nameFilter.toLowerCase())
-        const cpfMatch = farmer.cpf.includes(cpfFilter)
-        const statusMatch =
-            statusFilter === ''
-            || (statusFilter === 'active' && farmer.active)
-            || (statusFilter === 'inactive' && !farmer.active)
+        ? data.filter((farmer: Farmer) => {
+            const fullNameMatch = farmer.fullName.toLowerCase().includes(nameFilter.toLowerCase())
+            const cpfMatch = farmer.cpf.includes(cpfFilter)
+            const statusMatch =
+                statusFilter === ''
+                || (statusFilter === 'active' && farmer.active)
+                || (statusFilter === 'inactive' && !farmer.active)
 
-        return fullNameMatch && cpfMatch && statusMatch
+            return fullNameMatch && cpfMatch && statusMatch
         })
-    : []
+        : []
 
 
     useEffect(() => {
@@ -211,11 +211,11 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                                             <MenuButton as={Button}>
                                                 <i className="ri-edit-box-line text-black"></i>
                                             </MenuButton>
-                                              <Portal>
+                                            <Portal>
                                                 <MenuList zIndex={9999}>
-                                                <MenuItem onClick={() => updateFarmer(farmer)} color="#111">Update</MenuItem>
-                                                <MenuItem onClick={() => OpenDeleteModal(farmer._id)} color="#111">Remove</MenuItem>
-                                                <MenuItem onClick={() => viewFarmer(farmer)} color="#111">View</MenuItem>
+                                                    <MenuItem onClick={() => updateFarmer(farmer)} color="#111">Update</MenuItem>
+                                                    <MenuItem onClick={() => OpenDeleteModal(farmer._id)} color="#111">Remove</MenuItem>
+                                                    <MenuItem onClick={() => viewFarmer(farmer)} color="#111">View</MenuItem>
                                                 </MenuList>
                                             </Portal>
                                         </Menu>
@@ -226,39 +226,47 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                         </Tbody>
                     </Table>
                 </TableContainer>
-                
-                <div className="flex flex-wrap justify-center items-center mt-6 gap-4">
-                    <Button
-                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-                        isDisabled={page === 1}
-                        bg="black.100" color="white" 
-                        _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
-                        variant="outline"
-                    >
-                        <i className="ri-arrow-left-s-line"></i>
-                    </Button>
-                    <span className="text-white self-center">Page {page}</span>
-                    <Button
-                        onClick={() => setPage((prev) => prev + 1)}
-                        bg="black.100" color="white" 
-                        _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
-                        variant="outline"
-                        isDisabled={!hasNextPage}
-                    >
-                        <i className="ri-arrow-right-s-line"></i>
-                    </Button>
 
-                    <div className='max-w-[200px] flex justify-center items-center gap-2'>
-                        <p className='text-white'>Limit:</p>
-                        <Select value={limit} onChange={(e) => setLimit(Number(e.target.value))} bg="black.100" color="white" focusBorderColor="green.700">
+                <div className="flex flex-wrap items-center justify-between mt-6 gap-4">
+                    <div className="flex justify-center items-center flex-grow gap-4">
+                        <Button
+                            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                            isDisabled={page === 1}
+                            color="white"
+                            bg="black.100"
+                            _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
+                            variant="outline"
+                        >
+                            <i className="ri-arrow-left-s-line"></i>
+                        </Button>
+                        <span className="text-white self-center">Page {page}</span>
+                        <Button
+                            onClick={() => setPage((prev) => prev + 1)}
+                            color="white"
+                            bg="black.100"
+                            _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
+                            variant="outline"
+                            isDisabled={!hasNextPage}
+                        >
+                            <i className="ri-arrow-right-s-line"></i>
+                        </Button>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <p className="text-white">Limit:</p>
+                        <Select
+                            value={limit}
+                            onChange={(e) => setLimit(Number(e.target.value))}
+                            bg="black.100"
+                            color="white"
+                            focusBorderColor="green.700"
+                        >
                             <option value="5">5</option>
                             <option value="10">10</option>
                             <option value="15">15</option>
                             <option value="20">20</option>
                         </Select>
                     </div>
-
-
                 </div>
 
             </Container>
