@@ -161,12 +161,13 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                     <Select
                         value={statusFilter}
                         onChange={(e) => setStatusFilter(e.target.value)}
-                        bg="black.100"
-                        color="white"
+                        bg="#fff"
+                        color="#111"
                         focusBorderColor="green.700"
-                    >
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
+                    >   
+                        <option value="" color='#000'>All status</option>
+                        <option value="active" color='#000'>Active</option>
+                        <option value="inactive" color='#000'>Inactive</option>
                     </Select>
                 </div>
 
