@@ -32,22 +32,22 @@ const request = async (url: string, method = 'GET', body?: Record<string, unknow
     }
 }
 
-export const createAgricultor = async (body: Record<string, unknown>) => {
+export const createFarmer = async (body: Record<string, unknown>) => {
     return request(`${apiUrl}/agricultors`, 'POST', body)
 }
 
-export const getAgricultors = async (page = 1, limit = 10) => {
+export const getFarmers = async (page = 1, limit = 10) => {
     return request(`${apiUrl}/agricultors?page=${page}&limit=${limit}`)
 }
 
-export const deleteAgricultor = async (id: string) => {
+export const deleteFarmer = async (id: string) => {
     return request(`${apiUrl}/agricultors/${id}`, 'DELETE')
 }
 
-export const updateAgricultor = async (id: string, body: Record<string, unknown>) => {
+export const updateFarmer = async (id: string, body: Record<string, unknown>) => {
     return request(`${apiUrl}/agricultors/${id}`, 'PATCH', body)
 }
 
-export const getAgricultor = async (id: string) => {
+export const getFarmer = async (id: string) => {
     return request(`${apiUrl}/agricultors/${id}`)
 }

@@ -6,7 +6,7 @@ import type React from 'react'
 
 
 type HomeProps = {
-    setRoutes: React.Dispatch<React.SetStateAction<'home' | 'agricultors' | 'viewAgricultor'>>
+    setRoutes: React.Dispatch<React.SetStateAction<'home' | 'farmers' | 'viewFarmer'>>
 }
 export const Home = ({setRoutes}: HomeProps) => {
     
@@ -28,7 +28,7 @@ export const Home = ({setRoutes}: HomeProps) => {
                             color: '#000',
                             backgroundColor: '#eee8d4', 
                         }}
-                        onClick={() => setRoutes('agricultors')}
+                        onClick={() => setRoutes('farmers')}
                     >
                         Access the admin panel
                     </Button>

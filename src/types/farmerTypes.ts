@@ -1,4 +1,4 @@
-export type Agricultor = {
+export type Farmer = {
     fullName: string,
     cpf: string,
     birthDate: string,

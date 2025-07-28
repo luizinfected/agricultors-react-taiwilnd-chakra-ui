@@ -25,16 +25,16 @@ import {
     Select,
     Portal,
 } from '@chakra-ui/react'
-import { DrawerAgricultor } from '../components/Drawer'
-import { deleteAgricultor, getAgricultors } from '../common/request'
-import type { Agricultor } from '../types/agricultorTypes'
+import { DrawerFarmers } from '../components/Drawer'
+import { deleteFarmer, getFarmers } from '../common/request'
+import type { Farmer } from '../types/farmerTypes'
 import { toast } from 'react-toastify'
 
-type AgricultorsProps = {
-    setRoutes: React.Dispatch<React.SetStateAction<'home' | 'agricultors' | 'viewAgricultor'>>
+type FarmersProps = {
+    setRoutes: React.Dispatch<React.SetStateAction<'home' | 'farmers' | 'viewFarmer'>>
 }
 
-export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
+export const Farmers = ({ setRoutes }: FarmersProps) => {
 
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(5)
@@ -46,7 +46,7 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
 
     const [data, setData] = useState([])
-    const [updateData, setUpdateData] = useState<Agricultor | null>(null)
+    const [updateData, setUpdateData] = useState<Farmer | null>(null)
     const [trigger, setTrigger] = useState(false)
     const [isUpdating, setIsUpdating] = useState(false)
     const [deleteId, setDeleteId] = useState('')
@@ -59,24 +59,24 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
         return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`
     }
 
-    const viewAgricultor = (agricultor: Agricultor) => {
-        setRoutes('viewAgricultor')
-        localStorage.setItem('agricultor', JSON.stringify(agricultor))
+    const viewFarmer = (farmer: Farmer) => {
+        setRoutes('viewFarmer')
+        localStorage.setItem('farmer', JSON.stringify(farmer))
     }
 
-    const updateAgricultor = (agricultor: Agricultor) => {
+    const updateFarmer = (farmer: Farmer) => {
         setIsUpdating(true)
-        setUpdateData(agricultor)
+        setUpdateData(farmer)
         onOpen()
     }
 
-    const removeAgricultor = async () => {
-        const response = await deleteAgricultor(deleteId)
+    const removeFarmer = async () => {
+        const response = await deleteFarmer(deleteId)
 
         if (response.error) {
             return
         }
-        toast.success('Agricultor deleted successfully')
+        toast.success('Farmer deleted successfully')
         onDeleteClose()
         setDeleteId('')
         setTrigger(true)
@@ -89,24 +89,26 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
 
     const fetchData = async () => {
         try {
-            const agricultors = await getAgricultors(page, limit)
-            setData(agricultors.data)
-            setTotalCount(agricultors.total)
+            const farmers = await getFarmers(page, limit)
+            setData(farmers.data ?? [])
+            setTotalCount(farmers.total)
         } catch (error) {
             console.error(error)
         }
     }
 
-    const filteredData = data.filter((agricultor: Agricultor) => {
-        const fullNameMatch = agricultor.fullName.toLowerCase().includes(nameFilter.toLowerCase())
-        const cpfMatch = agricultor.cpf.includes(cpfFilter)
+    const filteredData = Array.isArray(data)
+    ? data.filter((farmer: Farmer) => {
+        const fullNameMatch = farmer.fullName.toLowerCase().includes(nameFilter.toLowerCase())
+        const cpfMatch = farmer.cpf.includes(cpfFilter)
         const statusMatch =
             statusFilter === ''
-            || (statusFilter === 'active' && agricultor.active)
-            || (statusFilter === 'inactive' && !agricultor.active)
+            || (statusFilter === 'active' && farmer.active)
+            || (statusFilter === 'inactive' && !farmer.active)
 
         return fullNameMatch && cpfMatch && statusMatch
-    })
+        })
+    : []
 
 
     useEffect(() => {
@@ -132,7 +134,7 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                     </Button>
 
                     <Button background={'#063a1b'} color={'#fff'} _hover={{ color: '#000', backgroundColor: '#eee8d4' }} onClick={onOpen}>
-                        Create Agricultor
+                        Create Farmer
                     </Button>
                 </div>
 
@@ -171,14 +173,14 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                     <h2>Total of farmers found: {totalCount}</h2>
                 </div>
 
-                <DrawerAgricultor
-                    text={isUpdating ? 'Update Agricultor' : 'Create Agricultor'}
+                <DrawerFarmers
+                    text={isUpdating ? 'Update Farmer' : 'Create Farmer'}
                     isOpen={isOpen}
                     onClose={() => onClose()}
                     setTrigger={setTrigger}
                     isUpdating={isUpdating}
                     setIsUpdating={setIsUpdating}
-                    agricultor={updateData}
+                    farmer={updateData}
                 />
 
                 <TableContainer>
@@ -194,16 +196,15 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {filteredData?.map((agricultor: Agricultor) => (
-                                <Tr key={agricultor._id} className='text-white'>
-                                    <Td textAlign={'center'}>{agricultor.fullName}</Td>
-                                    <Td textAlign={'center'}>{maskedCpf(agricultor.cpf)}</Td>
+                            {filteredData?.map((farmer: Farmer) => (
+                                <Tr key={farmer._id} className='text-white'>
+                                    <Td textAlign={'center'}>{farmer.fullName}</Td>
+                                    <Td textAlign={'center'}>{maskedCpf(farmer.cpf)}</Td>
                                     <Td textAlign={'center'}>
-                                        {agricultor.birthDate &&
-                                            new Date(agricultor.birthDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' })}
+                                        {farmer.birthDate !== null ? new Date(farmer.birthDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'}
                                     </Td>
-                                    <Td textAlign={'center'}>{agricultor.phone && agricultor.phone}</Td>
-                                    <Td textAlign={'center'}>{agricultor.active ? 'Active' : 'Inactive'}</Td>
+                                    <Td textAlign={'center'}>{farmer.phone !== '' ? farmer.phone : 'N/A'}</Td>
+                                    <Td textAlign={'center'}>{farmer.active ? 'Active' : 'Inactive'}</Td>
                                     <Td textAlign={'center'}>
                                         <Menu placement="top">
                                             <MenuButton as={Button}>
@@ -211,9 +212,9 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                                             </MenuButton>
                                               <Portal>
                                                 <MenuList zIndex={9999}>
-                                                <MenuItem onClick={() => updateAgricultor(agricultor)} color="#111">Update</MenuItem>
-                                                <MenuItem onClick={() => OpenDeleteModal(agricultor._id)} color="#111">Remove</MenuItem>
-                                                <MenuItem onClick={() => viewAgricultor(agricultor)} color="#111">View</MenuItem>
+                                                <MenuItem onClick={() => updateFarmer(farmer)} color="#111">Update</MenuItem>
+                                                <MenuItem onClick={() => OpenDeleteModal(farmer._id)} color="#111">Remove</MenuItem>
+                                                <MenuItem onClick={() => viewFarmer(farmer)} color="#111">View</MenuItem>
                                                 </MenuList>
                                             </Portal>
                                         </Menu>
@@ -265,13 +266,13 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
             <Modal onClose={onDeleteClose} isOpen={isDeleteOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Do you want to remove this agricultor?</ModalHeader>
+                    <ModalHeader>Do you want to remove this farmer?</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                         <h2>Click on the button below to confirm</h2>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={removeAgricultor} colorScheme='red'>Remove</Button>
+                        <Button onClick={removeFarmer} colorScheme='red'>Remove</Button>
                     </ModalFooter>
                 </ModalContent>
             </Modal>

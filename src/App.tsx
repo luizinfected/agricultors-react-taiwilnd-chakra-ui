@@ -8,9 +8,9 @@ import { Footer } from './components/Footer'
 //pages
 import { Home } from './pages/Home'
 import { View } from './pages/View'
-import { Agricultors } from './pages/Agricultors'
+import { Farmers } from './pages/Farmers'
 
-type Routes = 'home' | 'agricultors' | 'viewAgricultor'
+type Routes = 'home' | 'farmers' | 'viewFarmer'
 
 function App() {
 
@@ -28,8 +28,8 @@ function App() {
                     className="flex-1"
                 >
                     {routes === 'home' && <Home setRoutes={setRoutes} />}
-                    {routes === 'agricultors' && <Agricultors setRoutes={setRoutes} /> }
-                    {routes === 'viewAgricultor' && <View setRoutes={setRoutes} /> }
+                    {routes === 'farmers' && <Farmers setRoutes={setRoutes} /> }
+                    {routes === 'viewFarmer' && <View setRoutes={setRoutes} /> }
                 </motion.div>
             </AnimatePresence>
             <Footer />

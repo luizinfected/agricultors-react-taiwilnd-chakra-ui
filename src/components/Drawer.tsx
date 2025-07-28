@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react"
 import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, FormControl, FormLabel, Select } from "@chakra-ui/react"
 import { CpfInput } from "./CpfInput"
-import { createAgricultor, updateAgricultor } from "../common/request"
-import type { Agricultor } from "../types/agricultorTypes"
+import { createFarmer, updateFarmer } from "../common/request"
+import type { Farmer } from "../types/farmerTypes"
 import { toast } from "react-toastify"
 
-type DrawerAgricultorProps = {
+type DrawerFarmersProps = {
   isOpen: boolean,
   onClose: () => void,
   text: string,
   setTrigger: React.Dispatch<React.SetStateAction<boolean>>
   isUpdating: boolean,
   setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>
-  agricultor: Agricultor | null
+  farmer: Farmer | null
 }
-export function DrawerAgricultor({ text, isOpen, onClose, setTrigger, agricultor, isUpdating, setIsUpdating }: DrawerAgricultorProps) {
+export function DrawerFarmers({ text, isOpen, onClose, setTrigger, farmer, isUpdating, setIsUpdating }: DrawerFarmersProps) {
 
   const [cpfError, setCpfError] = useState<string | null>(null)
   const [fullNameError, setFullNameError] = useState<string | null>(null)
@@ -25,20 +25,20 @@ export function DrawerAgricultor({ text, isOpen, onClose, setTrigger, agricultor
   const [active, setActive] = useState<'active' | 'inactive'>('active')
 
   useEffect(() => {
-    if (agricultor) {
-      setFullName(agricultor.fullName)
-      setCpfRaw(agricultor.cpf)
-      if(agricultor.birthDate){
-        const date = new Date(agricultor.birthDate)
+    if (farmer) {
+      setFullName(farmer.fullName)
+      setCpfRaw(farmer.cpf)
+      if(farmer.birthDate){
+        const date = new Date(farmer.birthDate)
         const yyyy = date.getFullYear()
         const mm = String(date.getMonth() + 1).padStart(2, '0')
         const dd = String(date.getDate() + 1).padStart(2, '0')
         setBirthDate(`${yyyy}-${mm}-${dd}`)
       }
-      setPhone(agricultor.phone)
-      setActive(agricultor.active ? 'active' : 'inactive')
+      setPhone(farmer.phone)
+      setActive(farmer.active ? 'active' : 'inactive')
     }
-  }, [agricultor])
+  }, [farmer])
 
   const handleSubmit = async () => {
 
@@ -71,17 +71,17 @@ export function DrawerAgricultor({ text, isOpen, onClose, setTrigger, agricultor
     }
 
     if (isUpdating) {
-      const response = await updateAgricultor(agricultor!._id, updatePayload)      
+      const response = await updateFarmer(farmer!._id, updatePayload)      
       if(response.error){
         return
       }
-      toast.success('Agricultor updated successfully')
+      toast.success('Farmer updated successfully')
     } else {
-      const response = await createAgricultor(payload)
+      const response = await createFarmer(payload)
       if(response.error){
         return
       }
-      toast.success('Agricultor created successfully')
+      toast.success('Farmer created successfully')
     }
     
     resetStatus()
