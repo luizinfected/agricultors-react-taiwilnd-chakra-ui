@@ -90,6 +90,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
     const fetchData = async () => {
         try {
             const farmers = await getFarmers(page, limit)
+            console.log(farmers)
             setData(farmers.data ?? [])
             setTotalCount(farmers.total)
         } catch (error) {
@@ -234,7 +235,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                         _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
                         variant="outline"
                     >
-                        Previous
+                        <i className="ri-arrow-left-s-line"></i>
                     </Button>
                     <span className="text-white self-center">Page {page}</span>
                     <Button
@@ -244,7 +245,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                         variant="outline"
                         isDisabled={!hasNextPage}
                     >
-                        Next
+                        <i className="ri-arrow-right-s-line"></i>
                     </Button>
 
                     <div className='max-w-[200px] flex justify-center items-center gap-2'>
