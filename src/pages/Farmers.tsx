@@ -228,7 +228,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                 </TableContainer>
 
                 <div className="flex flex-wrap items-center justify-between mt-6 gap-4">
-                    <div className="flex justify-center items-center flex-grow gap-4">
+                    <div className="flex justify-center items-center flex-grow gap-4 sm:translate-x-10">
                         <Button
                             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
                             isDisabled={page === 1}
