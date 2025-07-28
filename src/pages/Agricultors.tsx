@@ -36,16 +36,24 @@ type AgricultorsProps = {
 
 export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
 
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(5)
+    const [totalCount, setTotalCount] = useState(0)
+    const hasNextPage = page * limit < totalCount
+    // const totalPages = Math.ceil(totalCount / limit)
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure()
+
     const [data, setData] = useState([])
+    const [updateData, setUpdateData] = useState<Agricultor | null>(null)
     const [trigger, setTrigger] = useState(false)
     const [isUpdating, setIsUpdating] = useState(false)
-    const [updateData, setUpdateData] = useState<Agricultor | null>(null)
     const [deleteId, setDeleteId] = useState('')
-    const [nameFilter, setNameFilter] = useState('');
-    const [cpfFilter, setCpfFilter] = useState('');
-    const [statusFilter, setStatusFilter] = useState('');
+
+    const [nameFilter, setNameFilter] = useState('')
+    const [cpfFilter, setCpfFilter] = useState('')
+    const [statusFilter, setStatusFilter] = useState('')
 
     const maskedCpf = (cpf: string) => {
         return `${cpf.slice(0, 3)}.${cpf.slice(3, 6)}.${cpf.slice(6, 9)}-${cpf.slice(9, 11)}`
@@ -81,8 +89,9 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
 
     const fetchData = async () => {
         try {
-            const agricultors = await getAgricultors();
-            setData(agricultors)
+            const agricultors = await getAgricultors(page, limit)
+            setData(agricultors.data)
+            setTotalCount(agricultors.total)
         } catch (error) {
             console.error(error)
         }
@@ -102,7 +111,7 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [page, limit])
 
     useEffect(() => {
         fetchData()
@@ -112,7 +121,7 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
     }, [trigger])
 
     return (
-        <div className='bg-[#242424] flex justify-center items-center h-[90vh]'>
+        <div className='bg-[#242424] flex justify-center items-center'>
 
             <Container maxWidth={'container.lg'}>
                 <div className='text-3xl font-bold text-white mb-5 text-center'>Agricultors</div>
@@ -158,7 +167,9 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                     </Select>
                 </div>
 
-
+                <div className="flex justify-end text-gray-400">
+                    <h2>Total of farmers found: {totalCount}</h2>
+                </div>
 
                 <DrawerAgricultor
                     text={isUpdating ? 'Update Agricultor' : 'Create Agricultor'}
@@ -171,7 +182,7 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                 />
 
                 <TableContainer>
-                    <Table variant='simple'>
+                    <Table variant='simple' className='overflow-y-auto'>
                         <Thead>
                             <Tr>
                                 <Th textAlign={'center'}>Full Name</Th>
@@ -213,6 +224,40 @@ export const Agricultors = ({ setRoutes }: AgricultorsProps) => {
                         </Tbody>
                     </Table>
                 </TableContainer>
+                
+                <div className="flex flex-wrap justify-center items-center mt-6 gap-4">
+                    <Button
+                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                        isDisabled={page === 1}
+                        bg="black.100" color="white" 
+                        _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
+                        variant="outline"
+                    >
+                        Previous
+                    </Button>
+                    <span className="text-white self-center">Page {page}</span>
+                    <Button
+                        onClick={() => setPage((prev) => prev + 1)}
+                        bg="black.100" color="white" 
+                        _hover={{ color: '#000', backgroundColor: '#eee8d4' }}
+                        variant="outline"
+                        isDisabled={!hasNextPage}
+                    >
+                        Next
+                    </Button>
+
+                    <div className='max-w-[200px] flex justify-center items-center gap-2'>
+                        <p className='text-white'>Limit:</p>
+                        <Select value={limit} onChange={(e) => setLimit(Number(e.target.value))} bg="black.100" color="white" focusBorderColor="green.700">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                        </Select>
+                    </div>
+
+
+                </div>
 
             </Container>
 

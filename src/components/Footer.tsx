@@ -2,7 +2,7 @@ import { Link } from "@chakra-ui/react"
 
 export const Footer = () => {
     return (
-        <footer className="relative z-10 flex items-center justify-center w-full h-[10vh] py-5 border-t bg-[#242424]">
+        <footer className="relative z-10 flex items-center justify-center w-full h-[auto] py-5 border-t bg-[#242424]">
             <p className="text-sm text-gray-500 flex">
                 &copy; {new Date().getFullYear()} Agricultors. developed by 
             </p>

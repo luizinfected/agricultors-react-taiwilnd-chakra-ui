@@ -20,16 +20,24 @@ export const View = ({setRoutes}: ViewProps) => {
         setAgricultor(JSON.parse(agricultorLocalStorage || ''))
     }, [])
 
+    const filteredData = {
+        fullName: agricultor?.fullName,
+        cpf: agricultor?.cpf,
+        birthDate: agricultor && agricultor.birthDate !== null ? new Date(agricultor?.birthDate ?? '').toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'No birth date registered',
+        phone: agricultor && agricultor.phone !== '' ? agricultor.phone : 'No phone registered',
+        active: agricultor?.active ? 'Yes' : 'No'
+    }
+
 
     return (
         <div>
             <Container className="h-[90vh] flex justify-center items-center flex-col gap-5 text-white">
                 <Button onClick={() => backToAgricultors()}>Back</Button>
-                <Text>Full name: {agricultor?.fullName}</Text>
-                <Text>CPF: {agricultor?.cpf}</Text>
-                <Text>Birth date: { new Date(agricultor?.birthDate ?? '').toLocaleDateString('pt-BR', { timeZone: 'UTC' })}</Text>
-                <Text>Phone: {agricultor?.phone}</Text>
-                <Text>Active: {agricultor?.active ? 'Yes' : 'No'}</Text>
+                <Text>Full name: {filteredData.fullName}</Text>
+                <Text>CPF: {filteredData.cpf}</Text>
+                <Text>Birth date: { filteredData.birthDate}</Text>
+                <Text>Phone: {filteredData?.phone}</Text>
+                <Text>Active: {filteredData?.active}</Text>
             </Container>
             
         </div>

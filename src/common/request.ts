@@ -36,8 +36,8 @@ export const createAgricultor = async (body: Record<string, unknown>) => {
     return request(`${apiUrl}/agricultors`, 'POST', body)
 }
 
-export const getAgricultors = async () => {
-    return request(`${apiUrl}/agricultors`)
+export const getAgricultors = async (page = 1, limit = 10) => {
+    return request(`${apiUrl}/agricultors?page=${page}&limit=${limit}`)
 }
 
 export const deleteAgricultor = async (id: string) => {
