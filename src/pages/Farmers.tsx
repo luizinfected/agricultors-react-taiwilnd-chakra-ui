@@ -199,7 +199,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                         <Tbody>
                             {filteredData?.map((farmer: Farmer) => (
                                 <Tr key={farmer._id} className='text-white'>
-                                    <Td textAlign={'center'}>{farmer.fullName}</Td>
+                                    <Td textAlign={'center'} className='truncate' style={{ maxWidth: '200px' }}>{farmer.fullName}</Td>
                                     <Td textAlign={'center'}>{maskedCpf(farmer.cpf)}</Td>
                                     <Td textAlign={'center'}>
                                         {farmer.birthDate !== null ? new Date(farmer.birthDate).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'}
@@ -257,14 +257,14 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
                         <Select
                             value={limit}
                             onChange={(e) => setLimit(Number(e.target.value))}
-                            bg="black.100"
-                            color="white"
-                            focusBorderColor="green.700"
+                            bg="#eee8d4"
+                            color="black"
+                            focusBorderColor="#fff"
                         >
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="15">15</option>
-                            <option value="20">20</option>
+                            <option value="5" color='#000' >5</option>
+                            <option value="10" color='#000'>10</option>
+                            <option value="15" color='#000'>15</option>
+                            <option value="20" color='#000' >20</option>
                         </Select>
                     </div>
                 </div>

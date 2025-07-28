@@ -127,6 +127,10 @@ export function DrawerFarmers({ text, isOpen, onClose, setTrigger, farmer, isUpd
     if (key === 'phone') {
       const cleanedValue = value.replace(/\D/g, "")
       setPhone(cleanedValue)
+      if (cleanedValue.length === 11) {
+        const formattedValue = `(${cleanedValue.slice(0, 2)}) ${cleanedValue.slice(2, 7)}-${cleanedValue.slice(7, 11)}`
+        setPhone(formattedValue)
+      }
     }
 
     if (key === 'birthDate') {
@@ -162,7 +166,7 @@ export function DrawerFarmers({ text, isOpen, onClose, setTrigger, farmer, isUpd
 
             <FormControl isRequired>
               <FormLabel>Full Name</FormLabel>
-              <Input placeholder='Full Name' onChange={(e) => handleCustomChange(e, 'fullName')} value={fullName} />
+              <Input placeholder='Full Name' onChange={(e) => handleCustomChange(e, 'fullName')} value={fullName} maxLength={30}/>
             </FormControl>
 
             <FormControl>
@@ -172,7 +176,7 @@ export function DrawerFarmers({ text, isOpen, onClose, setTrigger, farmer, isUpd
 
             <FormControl>
               <FormLabel>Phone</FormLabel>
-              <Input placeholder='Phone' onChange={(e) => handleCustomChange(e, 'phone')} value={phone} />
+              <Input placeholder='Phone' onChange={(e) => handleCustomChange(e, 'phone')} value={phone} maxLength={14}  />
             </FormControl>
 
             <FormControl>
