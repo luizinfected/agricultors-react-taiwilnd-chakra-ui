@@ -16,7 +16,7 @@ export const View = ({setRoutes}: ViewProps) => {
     const [farmer, setFarmer] = useState<Farmer | null>(null)
 
     useEffect(() => {
-        const farmerLocalStorage = localStorage.getItem('agricultor')
+        const farmerLocalStorage = localStorage.getItem('farmer') ?? null
         setFarmer(JSON.parse(farmerLocalStorage || ''))
     }, [])
 

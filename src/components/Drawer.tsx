@@ -99,6 +99,7 @@ export function DrawerFarmers({ text, isOpen, onClose, setTrigger, farmer, isUpd
   }
 
   const handleClose = () => {
+    setIsUpdating(false)
     onClose()
     setCpfRaw('')
     setFullName('')
