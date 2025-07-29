@@ -33,21 +33,21 @@ const request = async (url: string, method = 'GET', body?: Record<string, unknow
 }
 
 export const createFarmer = async (body: Record<string, unknown>) => {
-    return request(`${apiUrl}/agricultors`, 'POST', body)
+    return request(`${apiUrl}/farmers`, 'POST', body)
 }
 
 export const getFarmers = async (page = 1, limit = 10) => {
-    return request(`${apiUrl}/agricultors?page=${page}&limit=${limit}`)
+    return request(`${apiUrl}/farmers?page=${page}&limit=${limit}`)
 }
 
 export const deleteFarmer = async (id: string) => {
-    return request(`${apiUrl}/agricultors/${id}`, 'DELETE')
+    return request(`${apiUrl}/farmers/${id}`, 'DELETE')
 }
 
 export const updateFarmer = async (id: string, body: Record<string, unknown>) => {
-    return request(`${apiUrl}/agricultors/${id}`, 'PATCH', body)
+    return request(`${apiUrl}/farmers/${id}`, 'PATCH', body)
 }
 
 export const getFarmer = async (id: string) => {
-    return request(`${apiUrl}/agricultors/${id}`)
+    return request(`${apiUrl}/farmers/${id}`)
 }

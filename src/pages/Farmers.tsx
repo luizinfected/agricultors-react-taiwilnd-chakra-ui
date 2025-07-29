@@ -127,7 +127,7 @@ export const Farmers = ({ setRoutes }: FarmersProps) => {
         <div className='bg-[#242424] flex justify-center items-center'>
 
             <Container maxWidth={'container.lg'}>
-                <div className='text-3xl font-bold text-white mb-5 text-center'>Agricultors</div>
+                <div className='text-3xl font-bold text-white mb-5 text-center my-6'>Agricultors</div>
 
                 <div className='flex justify-between'>
                     <Button background={'#063a1b'} color={'#fff'} _hover={{ color: '#000', backgroundColor: '#eee8d4' }} onClick={() => setRoutes('home')}>
